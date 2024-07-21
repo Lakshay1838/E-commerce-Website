@@ -1,41 +1,43 @@
-const products = [
-    
-{
-    image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
-    name: 'Black and Grey Athletic Cotton Socks - 6 Pairs',
-    ratings : {
-        stars:4.5,
-        count:87
-    },
-    priceInCents:1080                              
-    // we are calculating price in cents because javascript has problem with numbers 
-    // suggestion is to calculate in cents then convert in dollars 
-},
+// const products = [
 
-{
-    image: 'images/products/intermediate-composite-basketball.jpg',
-    name: 'Intermediate size Basketball',
-    ratings:{
-        stars:4,
-        count:127
-    },
-    priceInCents:2095
-},
+// {
+//     image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
+//     name: 'Black and Grey Athletic Cotton Socks - 6 Pairs',
+//     ratings : {
+//         stars:4.5,
+//         count:87
+//     },
+//     priceCents:1080                              
+//     // we are calculating price in cents because javascript has problem with numbers 
+//     // suggestion is to calculate in cents then convert in dollars 
+// },
 
-{
-    image:'images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg',
-    name:'Adult-Cotton-Tshirt-2-Pack',
-    ratings:{
-        stars:4.5,
-        count:56
-    },
-    priceInCents:799
-}];
+// {
+//     image: 'images/products/intermediate-composite-basketball.jpg',
+//     name: 'Intermediate size Basketball',
+//     ratings:{
+//         stars:4,
+//         count:127
+//     },
+//     priceCents:2095
+// },
 
-let productsHTML = '';
+// {
+//     image:'images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg',
+//     name:'Adult-Cotton-Tshirt-2-Pack',
+//     ratings:{
+//         stars:4.5,
+//         count:56
+//     },
+//     priceCents:799
+// }];
+// FIRSTLY USED ARRAY THEN WE USE THE ARRAY IN PRODUCTS.JS
 
-products.forEach((product)=>{
-    productsHTML += `
+let productsHTMLCode = '';
+
+products.forEach((product) => {
+  // ->>>->->-> while creating html using javascript remember to use names accurately ->>>->->->
+  productsHTMLCode += `
          <div class="product-container">
           <div class="product-image-container">
             <img class="product-image"
@@ -48,14 +50,14 @@ products.forEach((product)=>{
 
           <div class="product-rating-container">
             <img class="product-rating-stars"
-              src="images/ratings/rating-${product.ratings.stars * 10}.png">
+              src="images/ratings/rating-${product.rating.stars * 10}.png">
             <div class="product-rating-count link-primary">
-              ${product.ratings.count}
+              ${product.rating.count}
             </div>
           </div>
 
           <div class="product-price">
-            $${(product.priceInCents/ 100).toFixed(2)}
+            $${(product.priceCents / 100).toFixed(2)}
           </div>
 
           <div class="product-quantity-container">
@@ -79,15 +81,45 @@ products.forEach((product)=>{
             <img src="images/icons/checkmark.png">
             Added
           </div>
-
-          <button class="add-to-cart-button button-primary">
+                                                                                            
+          <button class="js-add-to-cart add-to-cart-button button-primary" data-product-id = "${product.id}">
             Add to Cart
           </button>
         </div>
     `;
-})
+});
 // console.log(productsHTML)
 
 
 document.querySelector('.products-grid')
-    .innerHTML = productsHTML;
+  .innerHTML = productsHTMLCode;
+
+// Cart
+document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  button.addEventListener('click', () => {
+
+    const productId = button.dataset.productId;
+    // console.log(button.dataset.productId);
+    let matchingItem;
+
+    cart.forEach((cartItem) => {
+      //checking that the product already exists or not
+      if (cartItem.productId === productId) {
+        matchingItem = cartItem;
+      }
+    });
+
+    // if exists then increase quantity
+    if (matchingItem) {
+      matchingItem.quantity++;
+    }
+    // else : push new item in cart
+    else {
+      cart.push({
+        productId: productId,
+        quantity: 1
+      });
+    }
+    console.log(cart);
+  })
+})
