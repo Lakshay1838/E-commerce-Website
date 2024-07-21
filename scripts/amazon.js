@@ -60,8 +60,8 @@ products.forEach((product) => {
             $${(product.priceCents / 100).toFixed(2)}
           </div>
 
-          <div class="product-quantity-container">
-            <select>
+          <div class="product-quantity-container ">
+            <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -94,6 +94,8 @@ products.forEach((product) => {
 document.querySelector('.products-grid')
   .innerHTML = productsHTMLCode;
 
+  
+
 // Cart
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
@@ -101,6 +103,11 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     const productId = button.dataset.productId;
     // console.log(button.dataset.productId);
     let matchingItem;
+
+    // we here are using productId we get from js-add-to-cart class via data attribute
+    const quantitySelected = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+    // document.querySelector(`.js-quantity-selector-${productId}`).value = '1';
+    console.log(quantitySelected)
 
     cart.forEach((cartItem) => {
       //checking that the product already exists or not
@@ -111,13 +118,13 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 
     // if exists then increase quantity
     if (matchingItem) {
-      matchingItem.quantity++;
+      matchingItem.quantity += quantitySelected;
     }
     // else : push new item in cart
     else {
       cart.push({
         productId: productId,
-        quantity: 1
+        quantity: quantitySelected
       });
     }
     // console.log(cart);
