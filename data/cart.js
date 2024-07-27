@@ -1,1 +1,34 @@
-export let cart=[];
+export let cart=[{
+    productId : 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+    quantity:2
+}];
+
+
+export function addToCart(productId) {
+    let matchingItem;
+  
+    // we here are using productId we get from js-add-to-cart class via data attribute
+    const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+    // document.querySelector(`.js-quantity-selector-${productId}`).value = '1';
+    console.log(quantity)
+  
+    cart.forEach((cartItem) => {
+      //checking that the product already exists or not
+      if (cartItem.productId === productId) {
+        matchingItem = cartItem;
+      }
+    });
+  
+    // if exists then increase quantity
+    if (matchingItem) {
+      matchingItem.quantity += quantity;
+    }
+    // else : push new item in cart
+    else {
+      cart.push({
+        productId,
+        quantity
+      });
+    }
+    console.log(cart);
+  }

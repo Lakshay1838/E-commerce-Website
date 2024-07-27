@@ -1,8 +1,7 @@
-import {cart} from '../data/cart.js';
+import {cart,addToCart} from '../data/cart.js';
 import { products } from '../data/products.js';
 
 // const products = [
-
 // {
 //     image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
 //     name: 'Black and Grey Athletic Cotton Socks - 6 Pairs',
@@ -97,8 +96,14 @@ products.forEach((product) => {
 document.querySelector('.products-grid')
   .innerHTML = productsHTMLCode;
 
+function updateCartQuantity(){
+    let cartQuantity = 0;
+    cart.forEach((item) => {
+      cartQuantity += item.quantity;
+    });
 
-
+    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+}
 // Cart
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
@@ -106,38 +111,8 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     // const productId = button.dataset.productId;    SHORTCUT BELOW LINE
     const { productId } = button.dataset;
     // console.log(button.dataset.productId);
-    let matchingItem;
-
-    // we here are using productId we get from js-add-to-cart class via data attribute
-    const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
-    // document.querySelector(`.js-quantity-selector-${productId}`).value = '1';
-    console.log(quantity)
-
-    cart.forEach((cartItem) => {
-      //checking that the product already exists or not
-      if (cartItem.productId === productId) {
-        matchingItem = cartItem;
-      }
-    });
-
-    // if exists then increase quantity
-    if (matchingItem) {
-      matchingItem.quantity += quantity;
-    }
-    // else : push new item in cart
-    else {
-      cart.push({
-        productId,
-        quantity
-      });
-    }
-    console.log(cart);
-    let cartQuantity = 0;
-    cart.forEach((item) => {
-      cartQuantity += item.quantity;
-    });
-
-    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+    addToCart(productId);
+    updateCartQuantity();
   })
 })
 
@@ -145,20 +120,24 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
 
-    
+
     const { productId } = button.dataset
     document.querySelector(`.js-added-to-cart-${productId}`).classList.add('add-opacity');
-
-
-    const timeOutSlot = {};
-
-    if(timeOutSlot.timeOutId){
-      clearInterval(timeOutSlot.timeOutId);
-    }
-    timeOutId = setTimeout(()=>{
+    let timeOutId;
+    timeOutId = setTimeout(() => {
       document.querySelector(`.js-added-to-cart-${productId}`).classList.remove('add-opacity');
-    },4000);
-    timeOutSlot.timeOutId = timeOutId;
+    }, 2000);
+
+  //   const timeOutSlot = {};
+
+  //   if (timeOutSlot.timeOutId) {
+  //     clearInterval(timeOutSlot.timeOutId);
+  //   }
+  // let timeOutId;
+  //   timeOutId = setTimeout(() => {
+  //     document.querySelector(`.js-added-to-cart-${productId}`).classList.remove('add-opacity');
+  //   }, 2000);
+  //   timeOutSlot.timeOutId = timeOutId;
   });
 });
 
