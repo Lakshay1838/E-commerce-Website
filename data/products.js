@@ -656,5 +656,35 @@ const products = [
       "apparel",
       "mens"
     ]
+  },
+  {
+    id:"id1",
+    image:"images/products/backpack.jpg",
+    name:"Backpack",
+    rating :{
+      stars:4.5,
+      count:98
+    },
+    priceCents:2999
+  },
+  {
+    id:"id2",
+    image:"images/products/random.jpeg",
+    name:"Dice Trio",
+    rating : {
+      stars:4,
+      count:251
+    },
+    priceCents:3467
+  },
+  {
+    id:"id3",
+    image:"images/products/umbrella.jpg",
+    name:"Umbrella",
+    rating : {
+      stars:4.5,
+      count:211
+    },
+    priceCents:2014
   }
 ];

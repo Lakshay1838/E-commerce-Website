@@ -1,3 +1,5 @@
+import {cart} from '../data/cart.js';
+
 // const products = [
 
 // {
@@ -77,7 +79,7 @@ products.forEach((product) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -94,20 +96,21 @@ products.forEach((product) => {
 document.querySelector('.products-grid')
   .innerHTML = productsHTMLCode;
 
-  
+
 
 // Cart
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
 
-    const productId = button.dataset.productId;
+    // const productId = button.dataset.productId;    SHORTCUT BELOW LINE
+    const { productId } = button.dataset;
     // console.log(button.dataset.productId);
     let matchingItem;
 
     // we here are using productId we get from js-add-to-cart class via data attribute
-    const quantitySelected = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+    const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
     // document.querySelector(`.js-quantity-selector-${productId}`).value = '1';
-    console.log(quantitySelected)
+    console.log(quantity)
 
     cart.forEach((cartItem) => {
       //checking that the product already exists or not
@@ -118,18 +121,18 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 
     // if exists then increase quantity
     if (matchingItem) {
-      matchingItem.quantity += quantitySelected;
+      matchingItem.quantity += quantity;
     }
     // else : push new item in cart
     else {
       cart.push({
-        productId: productId,
-        quantity: quantitySelected
+        productId,
+        quantity
       });
     }
-    // console.log(cart);
+    console.log(cart);
     let cartQuantity = 0;
-    cart.forEach((item)=>{
+    cart.forEach((item) => {
       cartQuantity += item.quantity;
     });
 
@@ -137,4 +140,24 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   })
 })
 
+// Added
+document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  button.addEventListener('click', () => {
+
+    
+    const { productId } = button.dataset
+    document.querySelector(`.js-added-to-cart-${productId}`).classList.add('add-opacity');
+
+
+    const timeOutSlot = {};
+
+    if(timeOutSlot.timeOutId){
+      clearInterval(timeOutSlot.timeOutId);
+    }
+    timeOutId = setTimeout(()=>{
+      document.querySelector(`.js-added-to-cart-${productId}`).classList.remove('add-opacity');
+    },4000);
+    timeOutSlot.timeOutId = timeOutId;
+  });
+});
 
