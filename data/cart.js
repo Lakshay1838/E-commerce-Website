@@ -36,3 +36,14 @@ export function addToCart(productId) {
     }
     console.log(cart);
   }
+
+export function removeFromCart(productId){
+    let newCart = [];
+
+    cart.forEach((cartItem)=>{
+        if(cartItem.productId !==  productId){
+            newCart.push(cartItem);
+        }
+    })
+    cart = newCart;
+  }
