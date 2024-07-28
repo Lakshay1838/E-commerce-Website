@@ -216,6 +216,7 @@
 .save-quantity-link{
   display: none;
 }
-.is-editing-quantity{
+.is-editing-quantity
+{
   display: initial;
 }
