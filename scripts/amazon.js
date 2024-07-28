@@ -1,4 +1,4 @@
-import {cart,addToCart} from '../data/cart.js';
+import {cart,addToCart,calculateCartQuantity} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formattMoney } from './utils/money.js';
 
@@ -35,6 +35,10 @@ import { formattMoney } from './utils/money.js';
 //     priceCents:799
 // }];
 // FIRSTLY USED ARRAY THEN WE USE THE ARRAY IN PRODUCTS.JS
+
+// to update  cart quantity or refresh it when reloading/moving btwn pages - > we have to use this code below 
+let quantity = calculateCartQuantity();
+    document.querySelector('.js-cart-quantity').innerHTML = quantity; 
 
 let productsHTMLCode = '';
 
@@ -97,14 +101,15 @@ products.forEach((product) => {
 document.querySelector('.products-grid')
   .innerHTML = productsHTMLCode;
 
-function updateCartQuantity(){
-    let cartQuantity = 0;
-    cart.forEach((item) => {
-      cartQuantity += item.quantity;
-    });
+// function updateCartQuantity(){
+//     let cartQuantity = 0;
+//     cart.forEach((item) => {
+//       cartQuantity += item.quantity;
+//     });
 
-    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-}
+//     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+//     return cartQuantity;
+// }
 // Cart
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
@@ -113,7 +118,8 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     const { productId } = button.dataset;
     // console.log(button.dataset.productId);
     addToCart(productId);
-    updateCartQuantity();
+    let quantity = calculateCartQuantity();
+    document.querySelector('.js-cart-quantity').innerHTML = quantity;
   });
 });
 
